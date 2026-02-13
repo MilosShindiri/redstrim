@@ -1,0 +1,43 @@
+{
+  "name": "redstreamapp",
+  "version": "0.1.0",
+  "description": "redstreamapp",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js' --fix",
+    "build": "vite build",
+    "build:nedza": "vite build --sourcemap=false --base=./ --outDir lg --emptyOutDir false && ares-package lg --outdir lg --no-minify",
+    "build:lg": "vite build --sourcemap=false --base=./ --outDir lg --emptyOutDir false && ares-package lg --outdir lg --no-minify",
+    "build:tizen": "vite build --sourcemap=false --base=./ --outDir tizen --emptyOutDir false",
+    "dev": "vite dev --host",
+    "postinstall": "husky"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.11.1",
+    "@lightningjs/msdf-generator": "^1.2.0",
+    "@vitejs/plugin-legacy": "^5.4.3",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.9.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.8"
+  },
+  "dependencies": {
+    "@lightningjs/blits": "^1.47.0",
+    "axios": "^1.13.3",
+    "shaka-player": "^4.16.15"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix"
+    ]
+  }
+}
