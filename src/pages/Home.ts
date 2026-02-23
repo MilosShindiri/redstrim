@@ -14,7 +14,7 @@ export default Blits.Component('Home', {
   },
   template: `
     <Element w="1920" h="1080" color="#0D0E12">
-      <Navbar ref="navbar" />
+      <Navbar ref="navbar" :isProfileOpened="$showProfile" />
       <GetStartedButton x="800" y="400" ref="button2" />
       <ProfileContainer :show="$showProfile" ref="ProfileContainer" />
     </Element>
@@ -29,7 +29,7 @@ export default Blits.Component('Home', {
 
   hooks: {
     init() {
-      this.$listen('openProfile', () => {
+      this.$listen('toggleProfile', () => {
         this.showProfile = !this.showProfile
         console.log('PROFILE TOGGLE:', this.showProfile)
 

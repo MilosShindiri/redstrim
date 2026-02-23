@@ -14,13 +14,14 @@ export default Blits.Component('Navbar', {
   template: `
     <Element>
       <Element>
-        <UserProfile ref="profile" />
+        <UserProfile ref="profile" :isProfileOpened="$isProfileOpened" />
         <SearchButton ref="search" />
         <NavbarRow ref="row" />
       </Element>
       <Element src="/assets/logo.png" x="1704" y="74" w="110" h="28" />
     </Element>
   `,
+  props: ["isProfileOpened"],
 
   state() {
     return {

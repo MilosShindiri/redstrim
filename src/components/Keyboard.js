@@ -9,13 +9,12 @@ const Key = Blits.Component('Key', {
       :effects="[{ type: 'radius', props: { radius: 50 } }]"
     >
       <Text
-        :if="$item.type === 'char'"
         :content="$displayValue"
         size="48"
         :color="$hasFocus ? '#0D0E12' : '#FFF'"
         placement="{x:'center', y:'middle'}"
       />
-      <Element :if="$item.type === 'icon'" :src="$item.src" w="36" h="36" placement="{x:'center', y:'middle'}" />
+      <Element :src="$item.src" w="36" h="36" placement="{x:'center', y:'middle'}" />
     </Element>
   `,
   props: ['item', 'layout'],

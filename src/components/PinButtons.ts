@@ -25,7 +25,6 @@ export default Blits.Component('PinButtons', {
       ]"
         />
         <Element
-          :if="$hasError === false"
           :alpha="$hasError ? 1 : 0"
           w="140"
           h="140"

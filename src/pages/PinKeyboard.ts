@@ -32,7 +32,7 @@ export default Blits.Component('PinKeyboard', {
         :alpha="$isSubmitting ? 0 : 1"
       />
       <Text content="Verify your PIN" color="#853fad" size="48" x="808" y="48" :alpha="$isSubmitting ? 1 : 0" />
-      <Spinner :if="$isSubmitting" src="/assets/spinner.png" w="64" h="64" x="930" y="128" :alpha="$isSubmitting ? 1 : 0" />
+      <Spinner src="/assets/spinner.png" w="64" h="64" x="930" y="128" :alpha="$isSubmitting ? 1 : 0" />
       <PinButtons ref="$pin" :pin="$pin" :maxPinLength="$maxPinLength" :hasError="$hasError" />
       <Keyboard ref="keyboard" x="478" y="415" :margin="90" :perRow="3" />
       <CancelButton ref="cancel" x="691" y="850" />
@@ -104,9 +104,9 @@ watch: {
 },
 
 input: {
-  back() {
-    this.removePin()
-  },
+  // back() {
+  //   this.removePin()
+  // },
 
   // up() {
   //   this.$select('keyboard')?.$focus()
@@ -119,8 +119,8 @@ input: {
 
   methods: {
   addPin(key: string | number) {
-    if (this.isSubmitting) return
-    if (this.pin.length >= this.maxPinLength) return
+    // if (this.isSubmitting) return
+    if (this.isSubmitting || this.pin.length >= this.maxPinLength) return
     this.pin += key
   },
 

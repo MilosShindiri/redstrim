@@ -45,9 +45,9 @@ export default Blits.Component('ProfileContainer', {
   },
 
   input: {
-      back() {
+    back() {
       // emitting a toggle event back to Home
-      this.$emit('openProfile')
+      this.$emit('toggleProfile')
     },
     down() { 
         this.focused = Math.min(this.focused + 1, 2)
@@ -55,7 +55,7 @@ export default Blits.Component('ProfileContainer', {
     up() {
     if (this.focused === 0) {
         // this.$select('navbar')?.$focus()
-        this.$emit('openProfile')
+        this.$emit('toggleProfile')
     }
       this.focused = Math.max(this.focused - 1, 0)
     }
