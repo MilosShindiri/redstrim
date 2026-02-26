@@ -4,6 +4,7 @@ import AccountSection from "./Sections/AccountSection";
 import ContactSection from "./Sections/ContactSection";
 import RestartSection from "./Sections/RestartSection";
 import ExitSection from "./Sections/ExitSection";
+import LogoutSection from "./Sections/LogoutSection";
 
 export default Blits.Component('ContentPanel', {
   props: ['deviceInfo', 'section'],
@@ -13,7 +14,8 @@ export default Blits.Component('ContentPanel', {
     AccountSection,
     ContactSection,
     RestartSection,
-    ExitSection
+    ExitSection,
+    LogoutSection
   },
 
   template: `
@@ -27,6 +29,8 @@ export default Blits.Component('ContentPanel', {
       <RestartSection :show="$section === 'Restart App'" :deviceInfo="$deviceInfo" />
     
       <ExitSection :show="$section === 'Exit App'" :deviceInfo="$deviceInfo" />
+    
+      <LogoutSection :show="$section === 'Logout'" :deviceInfo="$deviceInfo" />
     </Element>
   `,
 })

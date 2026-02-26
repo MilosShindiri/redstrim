@@ -92,7 +92,7 @@ export default Blits.Component('SideBar', {
 
         if (selectedItem.label === 'Exit App') {
           if (!this.confirmingAction) {
-            // Prvi pritisak: samo aktiviraj restart sekciju i setuj flag
+            // Prvi pritisak: samo aktiviraj exit sekciju i setuj flag
             this.confirmingAction = true
             console.log('Exit initiated - press Enter again to confirm')
             // Opcionalno: ovde možeš emitovati event za prikaz poruke korisniku
@@ -108,8 +108,21 @@ export default Blits.Component('SideBar', {
         // }
 
         if (selectedItem.label === 'Logout') {
-          this.$router.to('/home')
+          if (!this.confirmingAction) {
+            // Prvi pritisak: samo aktiviraj logout sekciju i setuj flag
+            this.confirmingAction = true
+            console.log('Logout initiated - press Enter again to confirm')
+            // Opcionalno: ovde možeš emitovati event za prikaz poruke korisniku
+          } else {
+            // Drugi pritisak: stvarno restartuj aplikaciju
+            this.$router.to('/home')
+          }
+          return
         }
+
+        // if (selectedItem.label === 'Logout') {
+        //   this.$router.to('/home')
+        // }
       }
   },
 
