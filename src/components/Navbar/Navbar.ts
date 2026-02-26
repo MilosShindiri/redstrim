@@ -3,7 +3,6 @@ import UserProfile from './UserProfile'
 import SearchButton from './SearchButton'
 import NavbarRow from './NavbarRow'
 
-
 // #1a002b
 export default Blits.Component('Navbar', {
   components: {

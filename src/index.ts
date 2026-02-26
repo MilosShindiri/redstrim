@@ -1,10 +1,31 @@
 import Blits from '@lightningjs/blits'
-import { language } from '@lightningjs/blits/plugins'
+import { language, storage } from '@lightningjs/blits/plugins'
 import { SCREEN_W, SCREEN_H } from './constants/Resolution'
 
+
 import App from './App'
+import keymapping from './keymapping'
+
+
+import { detectDeviceInfo } from './utils/deviceInfo'
+
+// window.addEventListener('keydown', (e) => {
+//   console.log('RAW KEY DOWN →', {
+//     keyCode: e.keyCode,
+//     key: e.key,
+//   })
+// })
 
 Blits.Plugin(language)
+Blits.Plugin(storage)
+
+const initDeviceInfo = async () => {
+  // detect device info i spremi u storage
+  const info = await detectDeviceInfo()
+  console.log('🔥DEVICE INFO →', info)
+}
+
+initDeviceInfo()
 
 Blits.Launch(App, 'app', {
   w: SCREEN_W,
@@ -14,6 +35,9 @@ Blits.Launch(App, 'app', {
   holdTimeout: 500,
   inputThrottle: 300,
   defaultFont: 'poppins',
+  keymap: {
+   ...keymapping()
+  },
   fonts: [
     {
       family: 'poppins',
@@ -51,4 +75,5 @@ Blits.Launch(App, 'app', {
     //   file: 'fonts/OpenSans-Medium.ttf',
     // },
   ],
+  
 })

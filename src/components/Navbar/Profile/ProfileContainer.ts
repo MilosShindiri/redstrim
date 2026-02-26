@@ -42,11 +42,13 @@ export default Blits.Component('ProfileContainer', {
             this.$select('exit')?.$focus()
         }
     },
+    
   },
 
   input: {
     back() {
       // emitting a toggle event back to Home
+      this.focused = 0
       this.$emit('toggleProfile')
     },
     down() { 

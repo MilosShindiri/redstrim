@@ -19,6 +19,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.11.1",
     "@lightningjs/msdf-generator": "^1.2.0",
+    "@types/qrcode": "^1.5.6",
     "@vitejs/plugin-legacy": "^5.4.3",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
@@ -33,6 +34,7 @@
   "dependencies": {
     "@lightningjs/blits": "^1.47.0",
     "axios": "^1.13.3",
+    "qrcode": "^1.5.4",
     "shaka-player": "^4.16.15"
   },
   "lint-staged": {

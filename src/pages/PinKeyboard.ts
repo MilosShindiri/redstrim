@@ -78,7 +78,7 @@ export default Blits.Component('PinKeyboard', {
 
       this.$listen('cancelPressed', () => {
         this.resetVerification()
-        this.$router.to('home')
+        this.$router.back()
       })
 
       this.$listen('onDelete', () => {

@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar/Navbar'
 import GetStartedButton from '../components/GetStartedButton'
 import ProfileContainer from '../components/Navbar/Profile/ProfileContainer'
 
-
 // #1a002b
 export default Blits.Component('Home', {
   components: {
@@ -40,13 +39,17 @@ export default Blits.Component('Home', {
       }
       })
     },
-    focus() {
+  focus() {
+    if (!this.showProfile) {
       this.$trigger('focused')
-    },
+    }
+  },
+
   },
 
   watch: {
     focused(v: number) {
+      // if (this.showProfile) return
         if (v === 0) {
             this.$select('navbar')?.$focus()
         } else if (v === 1) {
@@ -66,6 +69,9 @@ export default Blits.Component('Home', {
         if (this.focused === 1) {
             this.$router.to('/pinKeyboard')
         }
+    },
+    back() {
+      return
     }
   }
 })

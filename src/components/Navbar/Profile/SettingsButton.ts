@@ -37,6 +37,15 @@ export default Blits.Component('Home', {
         }
     },
 
+    input: {
+        enter() {
+          this.$router.to('/settings')
+          this.$emit('toggleProfile')
+          this.parent.focused = 0
+          
+        }
+    },
+
 
 })
 
