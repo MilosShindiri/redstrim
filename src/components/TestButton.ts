@@ -8,7 +8,7 @@ export default Blits.Component('TestButton', {
       :color="$hasFocus ? '#ff0000' : '#0000ff'"
       :effects="[ { type: 'radius', props: { radius: 40 } } ]"
     >
-      <Text content="Second Button" color="#fff" size="24" mount="{x:0.5, y:0.5}" x="50%" y="50%" />
+      <Text content="Sign in" color="#fff" size="24" mount="{x:0.5, y:0.5}" x="50%" y="50%" />
     </Element>
   `,
 
@@ -24,6 +24,13 @@ export default Blits.Component('TestButton', {
     },
     unfocus() {
       this.hasFocus = false
+    }
+  },
+
+  input: {
+    enter() {
+      this.$emit('select')
+      this.$router.to('/login')
     }
   }
 })

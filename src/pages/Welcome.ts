@@ -86,6 +86,9 @@ export default Blits.Component('Welcome', {
       if (this.focused === 1) {
         this.$router.to('/home')
       }
+      // if (this.focused === 2) {
+      //   this.$router.to('/login')
+      // }
     },
     back() {
       return
