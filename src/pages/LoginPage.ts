@@ -31,12 +31,22 @@ export default Blits.Component('LoginPage', {
     steps() {
       return CONTENT[this.currentMode].steps
     },
+    qrUrl() {
+      return CONTENT[this.currentMode].url
+    },
     filteredButtons() {
-    if (this.currentMode === 'forgotPassword' || this.currentMode === 'createAccount') {
-      return []
+      if (this.currentMode === 'forgotPassword' || this.currentMode === 'createAccount') {
+        return []
+      }
+      return this.buttons
+    },
+    qrY() {
+      return this.filteredButtons.length === 0 ? 500 : 600
     }
-    return this.buttons
-  }
+
+    // qrY() {
+    //   return this.currentMode === 'signIn' ? 600 : 580
+    // }
   },
 
 
@@ -44,7 +54,7 @@ export default Blits.Component('LoginPage', {
     <Element w="1920" h="1080" color="#1a002b">
       <Element
         x="120"
-        y="600"
+        :y="$qrY"
         w="369"
         h="369"
         ref="qrContainer"
@@ -78,6 +88,7 @@ export default Blits.Component('LoginPage', {
         </Layout>
       </Element>
       <!-- <ChooseButton  label="Use phone" /> -->
+    
       <AuthScreen :visible="$showAuthScreen" :mode="$currentMode" />
       <VerticalLine x="961" y="339" width="4" height="380" />
       <Text content="OR" x="944" y="723" size="28" />
@@ -88,7 +99,7 @@ export default Blits.Component('LoginPage', {
 
   hooks: {
     async ready() {
-      const img = await generateQR('https://redline.com.tr/en/')
+      const img = await generateQR(this.qrUrl)
       this.imgSrc = img
       console.log('asdf img: ', img)
     },
@@ -97,16 +108,22 @@ export default Blits.Component('LoginPage', {
     },
   },
 
-    watch: {
+  watch: {
+    async currentMode() {
+      const img = await generateQR(this.qrUrl)
+      this.imgSrc = img
+    },
+
     hasFocus(isFocused) {
       if (isFocused) this.$trigger('focused')
     },
+
     focused(value) {
       const focusItem = this.$select(`btn-${value}`)
       if (focusItem && focusItem.$focus) {
         focusItem.$focus()
       }
-    },
+    }
   },
 
   input: {
