@@ -40,13 +40,22 @@ export const CONTENT: Record<string, ContentType> = {
   }
 }
 
-export type Mode = keyof typeof CONTENT
+// export type Mode = keyof typeof CONTENT
+export type Mode =
+  | 'signIn'
+  | 'remote'
+  | 'forgotPassword'
+  | 'createAccount'
 
 export default Blits.Component('AuthScreen', {
   props: [
     {
       key: 'mode',
       default: 'signIn' as Mode
+    },
+    {
+      key: 'offsetY',
+      default: 50
     }
   ],
 
@@ -58,16 +67,16 @@ export default Blits.Component('AuthScreen', {
 
   template: `
     <Element w="1920" h="1080">
+      <!-- HEADER (ne pomera se) -->
       <Element src="/assets/logo.png" x="878" y="48" w="164" h="42" />
       <Text :content="$content.title" fontSize="48" x="735" y="137" font="poppinsBold" size="48" color="#c455f9" />
     
-      <Text content="Scan the QR code" x="120" y="340" font="poppinsSemiBold" size="48" />
+      <!-- CONTENT (pomera se) -->
+      <Element :y="$offsetY">
+        <Text content="Scan the QR code" x="120" y="340" font="poppinsSemiBold" size="48" />
     
-      <Text :content="$content.qrText" x="120" y="413" w="600" maxwidth="734" maxlines="4" size="28" />
-    
-      <!-- <Element y="300" x="1000"> -->
-      <!-- <Text :for="(step, index) in $content.steps" :key="$index" :content="$step" :y="$index * 70" /> -->
-      <!-- </Element> -->
+        <Text :content="$content.qrText" x="120" y="413" w="600" maxwidth="734" maxlines="4" size="28" />
+      </Element>
     </Element>
   `
 })

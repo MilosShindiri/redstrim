@@ -5,6 +5,7 @@ import VisitWebsite from '../components/VisitWebsite'
 import VerticalLine from '../components/VerticalLine'
 import ChooseButton from '../components/ChooseButton'
 import { choose } from '../constants/choose'
+import RemoteLogin from './RemoteLogin'
 
 
 export default Blits.Component('LoginPage', {
@@ -13,7 +14,8 @@ export default Blits.Component('LoginPage', {
     AuthScreen,
     VisitWebsite,
     VerticalLine,
-    ChooseButton
+    ChooseButton,
+    RemoteLogin
   },
 
   state() {
@@ -40,12 +42,36 @@ export default Blits.Component('LoginPage', {
       }
       return this.buttons
     },
+    // qrY() {
+    //   return this.filteredButtons.length === 0 ? 460 : 600
+    // },
+    contentY() {
+      return this.currentMode === 'signIn' ? 0 : - 50
+    },
+
     qrY() {
-      return this.filteredButtons.length === 0 ? 500 : 600
-    }
+      if (this.currentMode === 'signIn') return 600
+      if (this.currentMode === 'forgotPassword') return 460
+      if (this.currentMode === 'createAccount') return 600
+    },
 
     // qrY() {
-    //   return this.currentMode === 'signIn' ? 600 : 580
+    //   const map = {
+    //     signIn: 600,
+    //     forgotPassword: 460,
+    //     createAccount: 600
+    //   }
+
+    //   return map[this.currentMode]
+    // }
+
+
+    // qrY() {
+    //   return this.currentMode === 'forgotPassword' ? 460 : 600
+    // }
+
+    // qrY() {
+    //   return this.currentMode === 'signIn' ? 600 : 460
     // }
   },
 
@@ -89,11 +115,11 @@ export default Blits.Component('LoginPage', {
       </Element>
       <!-- <ChooseButton  label="Use phone" /> -->
     
-      <AuthScreen :visible="$showAuthScreen" :mode="$currentMode" />
+      <AuthScreen :visible="$showAuthScreen" :mode="$currentMode" :offsetY="$contentY" />
       <VerticalLine x="961" y="339" width="4" height="380" />
       <Text content="OR" x="944" y="723" size="28" />
       <VerticalLine x="961" y="767" width="4" height="250" />
-      <VisitWebsite x="1072" y="339" :steps="$steps" />
+      <VisitWebsite x="1072" y="339" :steps="$steps" :offsetY="$contentY" />
     </Element>
   `,
 
