@@ -17,18 +17,17 @@ export default Blits.Component('InputField', {
     }
   },
 
-  computed: {
-    displayText() {
-      let text = this.password
-        ? '*'.repeat(this.value.length)
-        : this.value
+computed: {
+  displayText() {
+    let text = this.password ? '*'.repeat(this.value.length) : this.value
+    if (!this.focused) return text || this.placeholder
 
-      if (!this.focused) return text || this.placeholder
+    // Caret uvek na caretPos
+    const caret = this.caretVisible ? '|' : ''
+    return text.slice(0, this.caretPos) + caret + text.slice(this.caretPos)
+  }
+},
 
-      const caret = this.caretVisible ? '|' : ''
-      return text.slice(0, this.caretPos) + caret + text.slice(this.caretPos)
-    }
-  },
 
   template: `
     <Element>
@@ -41,7 +40,7 @@ export default Blits.Component('InputField', {
         :stroke="$focused ? '#ffffff' : '#ffffff55'"
         :effects="[{ type:'radius', props:{ radius: 50 }}, { type: 'border', props: { width: 4, color: '#8F8F8F' } }]"
       >
-        <Text x="20" y="22" :content="$displayText" :alpha="$value ? 1 : 0.5" />
+        <Text x="20" y="26" :content="$displayText" :alpha="$value ? 1 : 0.5" />
       </Element>
     </Element>
   `,
@@ -62,56 +61,42 @@ export default Blits.Component('InputField', {
     }
   },
 
-  input: {
-    any(e: any) {
-      const key = e.key
+input: {
+  any(e: any) {
+    const key = e.key
+    if (!key) return
 
-      if (key === 'Backspace') {
-        if (this.caretPos > 0) {
-          this.value =
-            this.value.slice(0, this.caretPos - 1) +
-            this.value.slice(this.caretPos)
-          this.caretPos--
-        }
-        return
-      }
-
-      if (key === ' ') {
-        this.value =
-          this.value.slice(0, this.caretPos) +
-          ' ' +
-          this.value.slice(this.caretPos)
-        this.caretPos++
-        return
-      }
-
-      if (key && key.length === 1) {
-        this.value =
-          this.value.slice(0, this.caretPos) +
-          key +
-          this.value.slice(this.caretPos)
-        this.caretPos++
-      }
-    },
-
-    enter() {
-      this.$emit('next')
-    },
-
-    down(e) {
-      this.$emit('next')
-    },
-
-    up(e) {
-      if (this.parent) this.parent.$input(e)
-    },
-
-    left() {
-      if (this.caretPos > 0) this.caretPos--
-    },
-
-    right() {
-      if (this.caretPos < this.value.length) this.caretPos++
+    if (key === 'Backspace' && this.caretPos > 0) {
+      this.value =
+        this.value.slice(0, this.caretPos - 1) +
+        this.value.slice(this.caretPos)
+      this.caretPos--
+      return
     }
-  }
+
+    if (key.length === 1) {
+      this.value =
+        this.value.slice(0, this.caretPos) +
+        key +
+        this.value.slice(this.caretPos)
+      this.caretPos++
+    }
+  },
+
+  left() {
+    if (this.caretPos > 0) this.caretPos--
+  },
+
+  right() {
+    if (this.caretPos < this.value.length) this.caretPos++
+  },
+
+  enter() {
+    this.$emit('activateNativeInput')
+    this.$emit('next')
+  },
+
+  down() { this.$emit('next') },
+  up(e) { if (this.parent) this.parent.$input(e) }
+}
 })
