@@ -20,6 +20,7 @@ export default Blits.Component('LoginPage', {
 
   state() {
     return {
+      loginMethod: 'phone' as 'phone' | 'remote',
       currentMode: 'signIn' as Mode,
       showAuthScreen: false,
       imgSrc: '',
@@ -41,6 +42,9 @@ export default Blits.Component('LoginPage', {
         return []
       }
       return this.buttons
+    },
+    showQR() {
+      return this.loginMethod === 'phone'
     },
     // qrY() {
     //   return this.filteredButtons.length === 0 ? 460 : 600
@@ -79,6 +83,7 @@ export default Blits.Component('LoginPage', {
   template: `
     <Element w="1920" h="1080" color="#1a002b">
       <Element
+        :show="$showQR"
         x="120"
         :y="$qrY"
         w="369"
@@ -115,11 +120,13 @@ export default Blits.Component('LoginPage', {
       </Element>
       <!-- <ChooseButton  label="Use phone" /> -->
     
-      <AuthScreen :visible="$showAuthScreen" :mode="$currentMode" :offsetY="$contentY" />
-      <VerticalLine x="961" y="339" width="4" height="380" />
-      <Text content="OR" x="944" y="723" size="28" />
-      <VerticalLine x="961" y="767" width="4" height="250" />
-      <VisitWebsite x="1072" y="339" :steps="$steps" :offsetY="$contentY" />
+      <AuthScreen :mode="$currentMode" :offsetY="$contentY" :loginMethod="$loginMethod" />
+    
+      <RemoteLogin :show="$loginMethod === 'remote'" ref="RemoteLogin" />
+      <VerticalLine x="961" y="339" width="4" height="380" :show="$loginMethod === 'phone'" />
+      <Text content="OR" x="944" y="723" size="28" :show="$loginMethod === 'phone'" />
+      <VerticalLine x="961" y="767" width="4" height="250" :show="$loginMethod === 'phone'" />
+      <VisitWebsite x="1072" y="339" :show="$loginMethod === 'phone'" :steps="$steps" :offsetY="$contentY" />
     </Element>
   `,
 
@@ -164,11 +171,20 @@ export default Blits.Component('LoginPage', {
     right() {
       this.focused = Math.min(this.focused + 1, this.buttons.length - 1)
     },
-  enter() {
-        if (this.focused === 1) {
-            this.$router.to('/pinKeyboard')
-        }
+    down() {
+      if (this.loginMethod === 'remote') {
+        this.$select('RemoteLogin')?.$focus()
+      }
     },
+    enter() {
+      if (this.focused === 0) {
+        this.loginMethod = 'phone'
+      }
+
+      if (this.focused === 1) {
+        this.loginMethod = 'remote'
+      }
+    }
   },
 
   methods: {

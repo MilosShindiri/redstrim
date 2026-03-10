@@ -54,6 +54,10 @@ export default Blits.Component('AuthScreen', {
       default: 'signIn' as Mode
     },
     {
+      key: 'loginMethod',
+      default: 'phone'
+    },
+    {
       key: 'offsetY',
       default: 50
     }
@@ -67,12 +71,12 @@ export default Blits.Component('AuthScreen', {
 
   template: `
     <Element w="1920" h="1080">
-      <!-- HEADER (ne pomera se) -->
+      <!-- HEADER (uvek vidljiv) -->
       <Element src="/assets/logo.png" x="878" y="48" w="164" h="42" />
       <Text :content="$content.title" fontSize="48" x="735" y="137" font="poppinsBold" size="48" color="#c455f9" />
     
-      <!-- CONTENT (pomera se) -->
-      <Element :y="$offsetY">
+      <!-- CONTENT -->
+      <Element :show="$loginMethod === 'phone'" :y="$offsetY">
         <Text content="Scan the QR code" x="120" y="340" font="poppinsSemiBold" size="48" />
     
         <Text :content="$content.qrText" x="120" y="413" w="600" maxwidth="734" maxlines="4" size="28" />
