@@ -33,7 +33,7 @@ Blits.Launch(App, 'app', {
   debugLevel: 1,
   inspector: false,
   holdTimeout: 500,
-  inputThrottle: 300,
+  // inputThrottle: 300,
   defaultFont: 'poppins',
   keymap: {
    ...keymapping()
