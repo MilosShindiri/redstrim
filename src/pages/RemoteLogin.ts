@@ -93,6 +93,23 @@ hooks: {
   },
 
 input: {
+enter() {
+  const focusedRef = this.focusableRefs()[this.focusedIndex]
+
+  if (focusedRef === 'forgot') {
+    this.focusedIndex = null
+    this.$emit('changeMode', 'forgotPassword')
+    this.$emit('switchToPhone')
+    this.$emit('rememberRemoteButton', 'forgot')
+  }
+
+  if (focusedRef === 'create') {
+    this.focusedIndex = null
+    this.$emit('changeMode', 'createAccount')
+    this.$emit('switchToPhone')
+    this.$emit('rememberRemoteButton', 'create')
+  }
+},
 down() {
   if (this.focusedIndex === 2) {
     // Sign In -> Forgot
@@ -134,6 +151,11 @@ up() {
         // Create -> Forgot
         this.focusedIndex = 3
       }
+    },
+    back() {
+      this.$emit('changeMode', 'signIn')
+      this.$emit('switchToRemote')
+      // this.focusedIndex = 0
     }
 }
 

@@ -26,7 +26,8 @@ export default Blits.Component('LoginPage', {
       imgSrc: '',
       buttons: choose,
       width: 0,
-      focused: 0
+      focused: 0,
+      lastRemoteButton: 'forgot',
     }
   },
 
@@ -80,6 +81,7 @@ export default Blits.Component('LoginPage', {
   },
   // :selected="$index === $focused"
   // :selected="$button.value === $loginMethod" -> add this to choose button if you want use phone to have selected state
+  //         :show="$filteredButtons.length > 0"
   template: `
     <Element w="1920" h="1080" color="#1a002b">
       <Element
@@ -102,6 +104,7 @@ export default Blits.Component('LoginPage', {
         height="84"
         color="#2B2B2BFF"
         :effects="[ { type: 'radius', props: { radius: 50 } } ]"
+        :show="$filteredButtons.length > 0"
       >
         <Layout
           direction="horizontal"
@@ -140,13 +143,41 @@ export default Blits.Component('LoginPage', {
     focus() {
       this.$select('btn-0')?.$focus()
     },
+      init() {
+    // sluša eventove iz RemoteLogin
+    this.$listen('changeMode', (newMode: Mode) => {
+      this.currentMode = newMode
+    })
+
+    this.$listen('switchToPhone', () => {
+      this.loginMethod = 'phone'   // prebaci na screen sa QR kodom
+      this.showAuthScreen = true   // prikaži AuthScreen
+    })
+    this.$listen('switchToRemote', () => {
+      this.loginMethod = 'remote'
+
+      setTimeout(() => {
+        const remote = this.$select('RemoteLogin')
+
+        if (this.lastRemoteButton === 'forgot') {
+          remote.focusedIndex = 3
+        }
+
+        if (this.lastRemoteButton === 'create') {
+          remote.focusedIndex = 4
+        }
+      })
+    })
+    this.$listen('rememberRemoteButton', (btn) => {
+      this.lastRemoteButton = btn
+    })
+  },
   },
 
   watch: {
-    async currentMode() {
-      const img = await generateQR(this.qrUrl)
-      this.imgSrc = img
-    },
+  currentMode() {
+    this.loadQR()  // kada se mode promeni, update-uj QR kod
+  },
 
     hasFocus(isFocused) {
       if (isFocused) this.$trigger('focused')
@@ -157,7 +188,7 @@ export default Blits.Component('LoginPage', {
       if (focusItem && focusItem.$focus) {
         focusItem.$focus()
       }
-    }
+    },
   },
 
   input: {
@@ -189,6 +220,11 @@ export default Blits.Component('LoginPage', {
   },
 
   methods: {
+      async loadQR() {
+    const img = await generateQR(this.qrUrl)
+    this.imgSrc = img
+  },
+
     goToSignIn() {
       this.currentMode = 'signIn'
       this.showAuthScreen = true
