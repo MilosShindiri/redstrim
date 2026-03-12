@@ -27,7 +27,7 @@ export default Blits.Component('LoginPage', {
       buttons: choose,
       width: 0,
       focused: 0,
-      lastRemoteButton: 'forgot',
+      lastRemoteIndex: 3,
     }
   },
 
@@ -126,7 +126,7 @@ export default Blits.Component('LoginPage', {
     
       <AuthScreen :mode="$currentMode" :offsetY="$contentY" :loginMethod="$loginMethod" />
     
-      <RemoteLogin :show="$loginMethod === 'remote'" ref="RemoteLogin" />
+      <RemoteLogin :show="$loginMethod === 'remote'" ref="RemoteLogin" :active="$currentMode === 'signIn'" />
       <VerticalLine x="961" y="339" width="4" height="380" :show="$loginMethod === 'phone'" />
       <Text content="OR" x="944" y="723" size="28" :show="$loginMethod === 'phone'" />
       <VerticalLine x="961" y="767" width="4" height="250" :show="$loginMethod === 'phone'" />
@@ -147,6 +147,7 @@ export default Blits.Component('LoginPage', {
     // sluša eventove iz RemoteLogin
     this.$listen('changeMode', (newMode: Mode) => {
       this.currentMode = newMode
+      
     })
 
     this.$listen('switchToPhone', () => {
@@ -156,20 +157,13 @@ export default Blits.Component('LoginPage', {
     this.$listen('switchToRemote', () => {
       this.loginMethod = 'remote'
 
-      setTimeout(() => {
-        const remote = this.$select('RemoteLogin')
-
-        if (this.lastRemoteButton === 'forgot') {
-          remote.focusedIndex = 3
-        }
-
-        if (this.lastRemoteButton === 'create') {
-          remote.focusedIndex = 4
-        }
-      })
+      const remote = this.$select('RemoteLogin')
+      if (remote) {
+        remote.focusedIndex = this.lastRemoteIndex
+      }
     })
-    this.$listen('rememberRemoteButton', (btn) => {
-      this.lastRemoteButton = btn
+    this.$listen('rememberRemoteIndex', (index) => {
+      this.lastRemoteIndex = index
     })
   },
   },

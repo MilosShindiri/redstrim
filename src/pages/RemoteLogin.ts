@@ -4,6 +4,9 @@ import Button from '../components/Button'
 
 export default Blits.Component('RemoteLogin', {
   components: { InputField, Button },
+  props: [
+  { key: 'active', default: true }
+],
 
   state() { return { focusedIndex: 0 } },
 
@@ -94,23 +97,25 @@ hooks: {
 
 input: {
 enter() {
+  if (!this.active) return
   const focusedRef = this.focusableRefs()[this.focusedIndex]
 
   if (focusedRef === 'forgot') {
+    this.$emit('rememberRemoteIndex', this.focusedIndex)
     this.focusedIndex = null
     this.$emit('changeMode', 'forgotPassword')
     this.$emit('switchToPhone')
-    this.$emit('rememberRemoteButton', 'forgot')
   }
 
   if (focusedRef === 'create') {
+    this.$emit('rememberRemoteIndex', this.focusedIndex)
     this.focusedIndex = null
     this.$emit('changeMode', 'createAccount')
     this.$emit('switchToPhone')
-    this.$emit('rememberRemoteButton', 'create')
   }
 },
 down() {
+  if (!this.active) return
   if (this.focusedIndex === 2) {
     // Sign In -> Forgot
     this.focusedIndex = 3
@@ -123,6 +128,7 @@ down() {
 },
 
 up() {
+  if (!this.active) return
   // ako smo na email inputu
   if (this.focusedIndex === 0) {
     const loginPage = this.parent
@@ -141,12 +147,14 @@ up() {
   this.focusPrev()
 },
   right() {
+    if (!this.active) return
     if (this.focusedIndex === 3) {
       // Forgot -> Create
       this.focusedIndex = 4
       }
   },
     left() {
+      if (!this.active) return
       if (this.focusedIndex === 4) {
         // Create -> Forgot
         this.focusedIndex = 3
