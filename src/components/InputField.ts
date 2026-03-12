@@ -56,21 +56,33 @@ displayText() {
     <Element>
       <Text :content="$label" size="28" font="poppinsBold" y="-10" />
     
+      <!-- SIVI BORDER -->
       <Element
+        :show="!$focused"
         y="40"
         w="700"
         h="100"
         color="#00000000"
-        :stroke="$focused ? '#ffffff' : '#ffffff55'"
         :effects="[
-          { type:'radius', props:{ radius: 50 }},
-          { type: 'border', props: { width: 4, color: '#8F8F8F' }}
-        ]"
-        clipping="true"
-      >
-        <Element clipping="true" w="680" h="100">
-          <Text x="20" y="26" :content="$displayText" :alpha="$value ? 1 : 0.5" @loaded="$onTextLoaded" />
-        </Element>
+      { type:'radius', props:{ radius:50 }},
+      { type:'border', props:{ width:4, color:'#8F8F8F' }}
+    ]"
+      />
+    
+      <!-- BELI BORDER -->
+      <Element
+        :show="$focused"
+        y="40"
+        w="700"
+        h="100"
+        color="#00000000"
+        :effects="[
+      { type:'radius', props:{ radius:50 }},
+      { type:'border', props:{ width:4, color:'#FFFFFF' }}
+    ]"
+      />
+      <Element clipping="true" w="680" h="100">
+        <Text x="20" y="66" :content="$displayText" :alpha="$value ? 1 : 0.5" @loaded="$onTextLoaded" />
       </Element>
     </Element>
   `,

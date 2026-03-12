@@ -11,9 +11,9 @@ export default Blits.Component('RemoteLogin', {
     <Element>
       <InputField ref="email" x="610" y="340" label="Email" placeholder="Enter your email" />
       <InputField ref="password" x="610" y="520" label="Password" placeholder="Enter your password" password="true" />
-      <Button x="826" y="780" label="Sign In" :w="268" />
-      <Button x="558" y="915" label="Forgot Password" :w="350" />
-      <Button x="956" y="915" label="Don't have an account?" :w="408" />
+      <Button ref="signin" x="826" y="780" label="Sign In" :w="268" />
+      <Button ref="forgot" x="558" y="915" label="Forgot Password" :w="350" />
+      <Button ref="create" x="956" y="915" label="Don't have an account?" :w="408" />
     </Element>
   `,
 
@@ -52,7 +52,9 @@ hooks: {
 },
 
   methods: {
-    focusableRefs() { return ['email', 'password'] },
+    focusableRefs() {
+      return ['email', 'password', 'signin', 'forgot', 'create']
+    },
 
     focusNext() {
       const max = this.focusableRefs().length - 1
@@ -60,6 +62,11 @@ hooks: {
     },
 
     focusPrev() {
+      if (this.focusedIndex === 0) {
+        this.parent.$focus()
+        return
+      }
+
       this.focusedIndex = Math.max(this.focusedIndex - 1, 0)
     },
 
@@ -85,10 +92,50 @@ hooks: {
     focusedIndex() { this.setFocus() }
   },
 
-  input: {
-    down() { this.focusNext() },
-    up() { this.focusPrev() }
+input: {
+down() {
+  if (this.focusedIndex === 2) {
+    // Sign In -> Forgot
+    this.focusedIndex = 3
+    return
+  }
+
+  if (this.focusedIndex < 2) {
+    this.focusNext()
+  }
+},
+
+up() {
+  // ako smo na email inputu
+  if (this.focusedIndex === 0) {
+    const loginPage = this.parent
+
+    loginPage.focused = 1          // indeks dugmeta "Use remote"
+    loginPage.$select('btn-1')?.$focus()
+
+    return
+  }
+
+  if (this.focusedIndex === 3 || this.focusedIndex === 4) {
+    this.focusedIndex = 2
+    return
+  }
+
+  this.focusPrev()
+},
+  right() {
+    if (this.focusedIndex === 3) {
+      // Forgot -> Create
+      this.focusedIndex = 4
+      }
   },
+    left() {
+      if (this.focusedIndex === 4) {
+        // Create -> Forgot
+        this.focusedIndex = 3
+      }
+    }
+}
 
 
 })

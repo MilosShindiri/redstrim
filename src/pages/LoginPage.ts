@@ -78,8 +78,8 @@ export default Blits.Component('LoginPage', {
     //   return this.currentMode === 'signIn' ? 600 : 460
     // }
   },
-
-
+  // :selected="$index === $focused"
+  // :selected="$button.value === $loginMethod" -> add this to choose button if you want use phone to have selected state
   template: `
     <Element w="1920" h="1080" color="#1a002b">
       <Element
@@ -115,6 +115,7 @@ export default Blits.Component('LoginPage', {
             :ref="'btn-' + $index"
             :label="$button.label"
             :key="$button"
+            :selected="$button.value === $loginMethod"
           />
         </Layout>
       </Element>
@@ -163,7 +164,7 @@ export default Blits.Component('LoginPage', {
     left() {
       if (this.focused === 0) {
         // console.log('asdf parent: ', this.parent)
-        this.parent.focused = 1 //set the parent focused index in order to properly shift to search button
+        this.parent.focused = 1//set the parent focused index in order to properly shift to search button
         this.parent.$focus()
       }
       this.focused = Math.max(this.focused - 1, 0)

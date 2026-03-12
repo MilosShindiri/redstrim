@@ -28,8 +28,11 @@ computed: {
     <Element
       :w="$width"
       :h="$height"
-      :effects="[ { type: 'radius', props: { radius: 50 } } ]"
-      :color="$hasFocus ? { left:'#ED51F0', right:'#9A33FF' } : '#2B2B2BFF'"
+      :effects="[
+        { type: 'radius', props: { radius: 50 } },
+        { type: 'border', props: { width: 4, color: '#ED51F0' } }
+      ]"
+      :color="$hasFocus ? '#ED51F0' : 'transparent'"
     >
       <Layout
         direction="horizontal"
