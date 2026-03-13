@@ -113,6 +113,10 @@ enter() {
     this.$emit('changeMode', 'createAccount')
     this.$emit('switchToPhone')
   }
+
+  if (focusedRef === 'signin') {
+    this.$router.to('/home')
+  }
 },
 down() {
   if (!this.active) return
